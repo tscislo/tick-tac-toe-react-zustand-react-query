@@ -1,6 +1,9 @@
 import {Square} from "../square/square.component.tsx";
+import {useGameStore} from "../state/state.ts";
 
 export const Board = () => {
+    const {squares} = useGameStore()
+
     return (
             <div
                     style={{
@@ -12,15 +15,10 @@ export const Board = () => {
                         border: '1px solid #999',
                     }}
             >
-                <Square value="x" onSquareClick={() => {}} />
-                <Square value="x" onSquareClick={() => {}} />
-                <Square value="x" onSquareClick={() => {}} />
-                <Square value="x" onSquareClick={() => {}} />
-                <Square value="x" onSquareClick={() => {}} />
-                <Square value="x" onSquareClick={() => {}} />
-                <Square value="x" onSquareClick={() => {}} />
-                <Square value="x" onSquareClick={() => {}} />
-                <Square value="x" onSquareClick={() => {}} />
+                {squares.map((square, index) => (
+                        <Square value={square} key={index} onSquareClick={() => {}} />
+                ))}
+
             </div>
     )
 }

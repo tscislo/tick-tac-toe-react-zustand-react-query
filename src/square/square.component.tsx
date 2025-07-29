@@ -9,6 +9,7 @@ export const Square = ({ value, onSquareClick }: {value: SquareValue, onSquareCl
                         justifyContent: 'center',
                         padding: 0,
                         backgroundColor: '#fff',
+                        color: 'black',
                         border: '1px solid #999',
                         outline: 0,
                         borderRadius: 0,
