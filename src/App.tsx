@@ -1,11 +1,11 @@
 import './App.css'
-import {Board} from "./board/board.component.tsx";
+import {Game} from "./game/game.component.tsx";
 
 function App() {
 
   return (
     <>
-        <Board />
+        <Game />
     </>
   )
 }

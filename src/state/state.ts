@@ -12,12 +12,14 @@ export interface GameState {
     currentTurn: SquareValue;
     changeTurn: () => void;
     resetTurn: () => void;
+    history: SquareValue[][];
 }
 
 export const useGameStore = create<GameState>()(
         (set) => ({
             currentTurn: startingTurn,
             squares: generateEmptyBoard(),
+            history: [],
             setSquares: (nextSquares: SquareValue[]) => set(() => ({squares: [...nextSquares]})),
             changeTurn: () => set((state) => ({currentTurn: state.currentTurn === 'x' ? 'o' : 'x'})),
             resetTurn:() => set(() => ({currentTurn: startingTurn, squares: generateEmptyBoard()})),
