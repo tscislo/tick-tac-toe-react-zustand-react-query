@@ -17,8 +17,9 @@ export const Board = ({squares, currentTurn, onPlay, resetGame}: {squares: Squar
 
     const setSquare = useCallback((squareIdx: number) => {
         if (squares[squareIdx]!==null || winner!==null) return;
-        squares[squareIdx] = currentTurn;
-        onPlay(squares);
+        const squaresCopy = [...squares];
+        squaresCopy[squareIdx] = currentTurn;
+        onPlay(squaresCopy);
     }, [squares, onPlay, winner, currentTurn]);
 
     return (

@@ -1,4 +1,6 @@
 import {create} from "zustand";
+import {immer} from 'zustand/middleware/immer';
+import { devtools } from 'zustand/middleware';
 import {generateEmptyBoard} from "../helpers/helpers.ts";
 import type {SquareValue} from "../square/square-value.ts";
 
@@ -24,27 +26,32 @@ export interface GameState {
 }
 
 export const useGameStore = create<GameState>()(
-        (set) => ({
+        devtools(immer((set) => ({
             currentTurn: startingTurn,
             squares: generateEmptyBoard(),
             history: [],
             addToHistory: (historyValue: SquareValue[]) => set((state) => {
-                const newHistoryItem = {
+                state.history.push({
                     turn: state.currentTurn,
                     time: (new Date()).toLocaleTimeString(),
                     value: historyValue,
-                }
-                return {history: [...state.history, newHistoryItem]}
+                });
             }),
             goBackToHistoryItem: (historyItemIdx: number) => set((state) => {
-                return {
-                    squares: [...state.history[historyItemIdx].value],
-                    currentTurn: state.history[historyItemIdx].turn,
-                    history: state.history.slice(0, historyItemIdx),
-                }
+                state.squares = state.history[historyItemIdx].value;
+                state.currentTurn = state.history[historyItemIdx].turn;
+                state.history = state.history.slice(0, historyItemIdx);
             }),
-            setSquares: (nextSquares: SquareValue[]) => set(() => ({squares: [...nextSquares]})),
-            changeTurn: () => set((state) => ({currentTurn: state.currentTurn==='x' ? 'o':'x'})),
-            resetTurn: () => set(() => ({currentTurn: startingTurn, history: [], squares: generateEmptyBoard()})),
-        })
+            setSquares: (nextSquares: SquareValue[]) => set((state) => {
+                state.squares = [...nextSquares];
+            }),
+            changeTurn: () => set((state) => {
+                state.currentTurn = state.currentTurn==='x' ? 'o':'x'
+            }),
+            resetTurn: () => set((state) => {
+                state.currentTurn = startingTurn;
+                state.history = [];
+                state.squares = generateEmptyBoard()
+            }),
+        })))
 )
