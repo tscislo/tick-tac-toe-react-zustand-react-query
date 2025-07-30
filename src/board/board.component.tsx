@@ -8,6 +8,7 @@ import {
 } from "../helpers/helpers.ts";
 import type {SquareValue} from "../square/square-value.ts";
 import {Square} from "../square/square.component.tsx";
+import classes from "./board.component.module.scss"
 
 export const Board = ({squares, currentTurn, onPlay, resetGame, load, save}: {
     squares: SquareValue[],
@@ -32,16 +33,7 @@ export const Board = ({squares, currentTurn, onPlay, resetGame, load, save}: {
     return (
             <>
                 <div style={{marginBottom: '0.5rem'}}>{statusText}</div>
-                <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(3, 1fr)',
-                            gridTemplateRows: 'repeat(3, 1fr)',
-                            width: 'calc(3 * 2.5rem)',
-                            height: 'calc(3 * 2.5rem)',
-                            border: '1px solid #999',
-                        }}
-                >
+                <div className={classes.board}>
                     {squares.map((square, index) => (
                             <Square value={square} key={index} onSquareClick={() => setSquare(index)} idx={index}/>
                     ))}

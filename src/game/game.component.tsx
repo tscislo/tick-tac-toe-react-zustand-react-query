@@ -4,6 +4,7 @@ import {Board} from "../board/board.component.tsx";
 import {HistoryComponent} from "../history/history.component.tsx";
 import type {SquareValue} from "../square/square-value.ts";
 import {useGameStore} from "../state/state.ts";
+import classes from "./game.component.module.scss";
 
 const jsonBinUrl = "https://api.jsonbin.io/v3/b/688a11daf7e7a370d1f06af1";
 
@@ -81,15 +82,7 @@ export const Game = () => {
                 {isLoading && <div>LOADING...</div>}
                 {!isLoading && (
                         <>
-                            <div
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        fontFamily: 'monospace',
-                                    }}
-                            >
+                            <div className={classes.game}>
                                 <div data-testid="board">
                                     <Board
                                             squares={squares}
