@@ -1,8 +1,9 @@
 import type {SquareValue} from "./square-value.ts";
 
-export const Square = ({ value, onSquareClick }: {value: SquareValue, onSquareClick: () => void})=>  {
+export const Square = ({ value, onSquareClick, idx }: {value: SquareValue, onSquareClick: () => void, idx: number})=>  {
     return (
             <button
+                    data-testid={`square-${idx}`}
                     style={{
                         display: 'inline-flex',
                         alignItems: 'center',

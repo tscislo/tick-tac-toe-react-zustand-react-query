@@ -24,7 +24,7 @@ export const Game = () => {
                             fontFamily: 'monospace',
                         }}
                 >
-                    <div>
+                    <div data-testid="board">
                         <Board
                                 squares={squares}
                                 resetGame={resetTurn}

@@ -36,7 +36,7 @@ export const Board = ({squares, currentTurn, onPlay, resetGame}: {squares: Squar
                         }}
                 >
                     {squares.map((square, index) => (
-                            <Square value={square} key={index} onSquareClick={() => setSquare(index)}/>
+                            <Square value={square} key={index} onSquareClick={() => setSquare(index)} idx={index}/>
                     ))}
                 </div>
                 {(status !== GameplayStatus.ONGOING) && <button onClick={resetGame}>Reset!</button>}
