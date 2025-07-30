@@ -1,6 +1,6 @@
 import {create} from "zustand";
+import {devtools} from 'zustand/middleware';
 import {immer} from 'zustand/middleware/immer';
-import { devtools } from 'zustand/middleware';
 import {generateEmptyBoard} from "../helpers/helpers.ts";
 import type {SquareValue} from "../square/square-value.ts";
 
@@ -23,10 +23,11 @@ export interface GameState {
     resetTurn: () => void;
     addToHistory: (newHistoryItem: SquareValue[]) => void;
     goBackToHistoryItem: (historyItemIdx: number) => void;
+    revertGamePlayToState: (history: History[]) => void;
 }
 
 export const useGameStore = create<GameState>()(
-        devtools(immer((set) => ({
+        devtools(immer((set, get) => ({
             currentTurn: startingTurn,
             squares: generateEmptyBoard(),
             history: [],
@@ -37,11 +38,14 @@ export const useGameStore = create<GameState>()(
                     value: historyValue,
                 });
             }),
-            goBackToHistoryItem: (historyItemIdx: number) => set((state) => {
-                state.squares = state.history[historyItemIdx].value;
-                state.currentTurn = state.history[historyItemIdx].turn;
-                state.history = state.history.slice(0, historyItemIdx);
-            }),
+            goBackToHistoryItem: (historyItemIdx: number) => {
+                set((state) => {
+                    state.squares = state.history[historyItemIdx].value;
+                    state.currentTurn = state.history[historyItemIdx].turn;
+                    state.history = state.history.slice(0, historyItemIdx + 1);
+                })
+                get().changeTurn();
+            },
             setSquares: (nextSquares: SquareValue[]) => set((state) => {
                 state.squares = [...nextSquares];
             }),
@@ -53,5 +57,11 @@ export const useGameStore = create<GameState>()(
                 state.history = [];
                 state.squares = generateEmptyBoard()
             }),
+            revertGamePlayToState: (history: History[]) => {
+                set((state) => {
+                    state.history = history;
+                })
+                get().goBackToHistoryItem(get().history.length - 1);
+            }
         })))
 )

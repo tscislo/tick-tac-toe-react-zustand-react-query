@@ -9,7 +9,14 @@ import {
 import type {SquareValue} from "../square/square-value.ts";
 import {Square} from "../square/square.component.tsx";
 
-export const Board = ({squares, currentTurn, onPlay, resetGame}: {squares: SquareValue[], currentTurn: SquareValue, onPlay: (squares: SquareValue[]) => void, resetGame: () => void}) => {
+export const Board = ({squares, currentTurn, onPlay, resetGame, load, save}: {
+    squares: SquareValue[],
+    currentTurn: SquareValue,
+    onPlay: (squares: SquareValue[]) => void,
+    resetGame: () => void,
+    load: () => void,
+    save: () => void,
+}) => {
     const winner = calculateWinner(squares);
     const turns = calculateTurns(squares);
     const statusText = calculateStatusText(winner, turns, currentTurn);
@@ -39,7 +46,9 @@ export const Board = ({squares, currentTurn, onPlay, resetGame}: {squares: Squar
                             <Square value={square} key={index} onSquareClick={() => setSquare(index)} idx={index}/>
                     ))}
                 </div>
-                {(status !== GameplayStatus.ONGOING) && <button onClick={resetGame}>Reset!</button>}
+                {<div><button onClick={load}>Load!</button></div>}
+                {<div><button onClick={save}>Save!</button></div>}
+                {(status !== GameplayStatus.ONGOING) && <div><button onClick={resetGame}>Reset!</button></div>}
             </>
     )
 }

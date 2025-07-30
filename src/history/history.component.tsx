@@ -9,7 +9,7 @@ export const HistoryComponent = ({history, onHistoryItemClick}: {
     return <>
         {hasHistory && (
                 <>
-                    <div data-testId='title' style={{marginTop: '0.5rem'}}>History</div>
+                    <div data-testid='title' style={{marginTop: '0.5rem'}}>History</div>
                     <div style={{marginLeft: '0.4rem'}}>
                         {
                             history.map((h: History, idx) => (
